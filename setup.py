@@ -1,23 +1,23 @@
 import os
 from setuptools import setup, find_packages
 
+root = os.path.abspath(os.path.dirname(__file__)) # 里面返回的是当前脚本文件所在的目录路径
+
 with open(
-    os.path.join(os.path.dirname(__file__), "requirements/common.txt"), "r"
+    os.path.join(root, "requirements/common.txt"), "r"
 ) as fh:
     requirements = fh.readlines()
 
 NAME = "binance-futures-connector"
 DESCRIPTION = "This is a lightweight library that works as a connector to Binance Futures public API."
-AUTHOR = "Futures"
-URL = "https://github.com/binance/binance-futures-connector-python"
+AUTHOR = "zwang"
+URL = "https://github.com/zizhengWong/binance-futures-connector-python"
 VERSION = None
 
 about = {}
 
 with open("README.md", "r") as fh:
     about["long_description"] = fh.read()
-
-root = os.path.abspath(os.path.dirname(__file__))
 
 if not VERSION:
     with open(os.path.join(root, "binance", "__version__.py")) as f:
@@ -36,7 +36,7 @@ setup(
     url=URL,
     keywords=["Binance futures", "Public API"],
     install_requires=[req for req in requirements],
-    packages=find_packages(exclude=("tests",)),
+    packages=find_packages(exclude=("tests",)), # 指定要包含在发布的软件包中的包列表
     classifiers=[
         "Intended Audience :: Developers",
         "Intended Audience :: Financial and Insurance Industry",
@@ -45,6 +45,6 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
-    ],
+    ], # 软件包的一系列分类标签
     python_requires=">=3.7",
 )

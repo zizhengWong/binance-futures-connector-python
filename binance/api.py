@@ -37,16 +37,14 @@ class API(object):
         self.key = key
         self.secret = secret
         self.timeout = timeout
-        self.show_limit_usage = False
-        self.show_header = False
+        self.show_limit_usage = show_limit_usage
+        self.show_header = show_header
         self.proxies = None
         self.private_key = private_key
         self.private_key_pass = private_key_passphrase
-        self.session = requests.Session()
+        self.session = requests.Session() # 重用连接、状态维护
         self.session.headers.update(
             {
-                "Content-Type": "application/json;charset=utf-8",
-                "User-Agent": "binance-futures-connector-python/" + __version__,
                 "X-MBX-APIKEY": key,
             }
         )
@@ -54,15 +52,11 @@ class API(object):
         if base_url:
             self.base_url = base_url
 
-        if show_limit_usage is True:
-            self.show_limit_usage = True
-
-        if show_header is True:
-            self.show_header = True
-
         if type(proxies) is dict:
             self.proxies = proxies
-
+        # TODO
+        print(__version__)
+        
         return
 
     def query(self, url_path, payload=None):
